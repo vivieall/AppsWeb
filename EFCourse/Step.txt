@@ -1,0 +1,142 @@
+1.-Ejecutando migraciones : Veremos como ejecutar una migracion
+   add-migration Initialize
+   update-database
+
+2.-Revirtiendo una migracion : Veremos como hacer rollback a una migración
+   Agregar un atributo a Cliente : Country
+   
+   add-migration AddCountryColumnToClient	
+   update-database 
+
+   pasos para revertir indicar el nombre de la migration a donde revertir
+   
+   update-database 20200411012623_Initialize
+   remove-migration  
+
+   Borrar atributo Country de clase Client
+   
+  Error:  Actualizar a EF 3.1
+  https://github.com/dotnet/efcore/issues/17909
+  https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.SqlServer/
+  https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.Tools/
+
+3.- Data Seeding : Populando nuestras tablas con informacion por defecto
+  
+    Agregar en ProductConfig
+    Agregar en ClientConfig
+    Luego add-migration AddInitialData
+          update-database 
+
+4.- RelationShips : Gestionando las relaciones
+    
+    Agregar Client en Order
+    Agregar List<Order> Orders en Client
+    Agregar List<OrderDetail> Items en Order
+    Agregar Order Order y Product Product en OrderDetail
+    
+   Luego: add-migration AddRelationships  y update-database
+   Luego generar el diagrama en SQL Server
+
+5.- Complex Models: Veremos un ejemplo más avanzado de modelos complejos.
+ 
+   Agregamos la Clase Sales (Resumen de las ventas) PK(year/month)-Not Identity va calcular los montos vendidos por año y mes
+             OrderNumbers va persistir los correlativos es decir cada vez que se cree un orden su PK sera de la
+             siguiente manera 2020-00001 el siguiente 2020-00002 y asi sucesivamente.
+
+   Agregar un atributo a Order.
+             DateTime RegisteredAt  
+   
+   Agregar la clase OrderNumber en Model en este caso no seguire el standar para el PK como en el caso de las otras clases. El 
+                        PK sera Year
+   Agregar la clase Sale en Model en este casto tampoco tendra un PK simple sino uno compuesto.
+
+   Agregamos un OrderNumberConfig(indicas que la PK es Year) y SaleConfig (clave compuesta)
+
+   Registramos los DBSet de OrderNumber y Sale en ApplicationDbContext
+   Registramos los config en OnModelCreating de ApplicationDbContext
+
+   Recomendacion: Si estan trabajando un proyecto y su tiempo de entrega es una
+                  semana y si durante esa semana van a realizar varias migraciones 
+                  no creen varias migraciones, terminen todo y generen una sola migracion
+                  y pase a produccion porque si no van a tener varias clases. 
+                    
+   Realizamos add-migration AddNewTables luego update-database verificamos en la BD
+
+   Revertimos la migracion a update-database 20200411024831_AddRelationships
+                             remove-migration
+
+   Populate de OrderNumber en OrderNumberConfig
+
+   Ahora volvemos a lanzar la migracion  add-migration AddNewTables  y update-database
+
+6.- Relaciones
+    One-Many: Vamos a crear una nueva clase para hacer la relacion con el cliente, pero que pasaria 
+              si ya estamos en produccion y hay informacion en los cliente no vamos a borrar la data
+              entonces la relacion debera ser nullable.
+
+     Agregamos la clase Country en Model
+     Agregamos la clase CountryConfig en Config
+     Agregamos DBSet y Config en ApplicationDbContext
+
+     Creamos la relacion de Country en Client: Solo que para el FK no seguire el estandar para ver como se crear una
+     relacion manual(int?) con esto indicamos que aceptara null
+
+     Y tambien tengo que hacer la relacion manual en Client.
+
+     Luego genero la relacion manual en ClientConfig
+
+     En CountryConfig agregamos unos cuantos paises.
+
+     Agregar add-migration AddCountriesTable
+             luego update-database
+  
+
+    ManyToMany: Products puede estar en varios Warehouse y estos pueden tener muchos productos
+    Agregamos la clase Warehouse
+    Agregamos la clase WarehouseConfig
+    Agregar DBSet y Config en ApplicationDbContext
+
+    Agregamos un nuevo modelo WarehouseProduct
+
+    Atributo de relacion en Warehouse : public List<WarehouseProduct> Products { get; set; }
+    Atributo de relacion en Product:   public List<WarehouseProduct> Warehouses { get; set; }
+
+    
+
+    Luego: add-migration AddWarehouseTable
+           update-database
+
+
+    OneToOne: Product  y ProductExtraInformation
+    Agregar la clase ProductExtraInformation 
+    Agregamos la clase ProductExtraInformationConfig
+    Agregar DBSet y Config en ApplicationDbContext
+
+    Establecer relacion onetoone en ProductExtraInformation agregamos 
+	public int ProductId { get; set; }
+        public Product Product { get; set; }
+
+   Agregamos en Product el atributo, no colocamos un Id de ProductExtraInformation porque 
+   si lo vemos desde la BD es un relacion de uno a mucho.
+        public ProductExtraInformation ExtraInformation { get; set; }
+   
+   Luego: add-migration AddProductExtraInformationTable
+           update-database
+
+7.-Operaciones de Lectura
+   En Service agregamos un nuevo proyecto Class Library de nombre Service
+
+   ToList y OrderBy 
+     Agregamos la clase ClientService
+    
+     Desde Program.cs verificamos si funciona
+
+   Single Vs First
+     Agregamos la clase ClientService
+
+   Condiciones
+     Agregamos la clase ProductService
+
+   Includes       
+
+   
