@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{2672BD6F-7B41-4203-8841-F18FBF9C3744}|Default">
+  <MonoDevelop.Ide.ItemProperties.01._220Client.ConsoleApp PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/Persistence.Database/ApplicationDbContext.cs">
+    <Files>
+      <File FileName="src/Persistence.Database/ApplicationDbContext.cs" Line="59" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="EFCourse" expanded="True">
+            <Node name="01. Client" expanded="True">
+              <Node name="ConsoleApp" expanded="True" />
+            </Node>
+            <Node name="02. Services" expanded="True" />
+            <Node name="03. Persistence" expanded="True">
+              <Node name="Persistence.Database" expanded="True">
+                <Node name="ApplicationDbContext.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Models;
 using Persistence.Database.Config;
 
+// Viviana Angeles
+
 namespace Persistence.Database
 {
     public class ApplicationDbContext : DbContext
